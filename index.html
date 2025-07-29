@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agri Input Ordering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --green: #64dd17;
+      --text: #f1f1f1;
+      --accent: #00c853;
+      --input: #2c2c2c;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: var(--card);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid var(--green);
+    }
+
+    header h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: 1.8em;
+    }
+
+    .guide-toggle {
+      margin-top: 10px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+    }
+
+    h2, h3 {
+      color: var(--accent);
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    input, select {
+      background: var(--input);
+      color: var(--text);
+    }
+
+    button {
+      background-color: var(--green);
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent);
+    }
+
+    .order-output {
+      background: #263238;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 4px solid var(--green);
+      border-radius: 5px;
+    }
+
+    #guideBox {
+      display: none;
+      background: #1b1b1b;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    #guideBox table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--text);
+      font-size: 0.95em;
+    }
+
+    #guideBox th, #guideBox td {
+      padding: 6px;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+
+    #guideBox th {
+      color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.4em;
+      }
+
+      .guide-toggle {
+        width: 100%;
+        font-size: 0.95em;
+        margin-top: 10px;
+      }
+
+      input, select, button {
+        font-size: 0.95em;
+        padding: 8px;
+      }
+
+      h2, h3 {
+        font-size: 1.1em;
+      }
+
+      #guideBox table {
+        font-size: 0.85em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌾 Agri Input Ordering Portal</h1>
+    <button class="guide-toggle" onclick="toggleGuide()">📘Crop Guide</button>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2>📦 Place Your Order</h2>
+      <form id="orderForm">
+        <label>Select Product:</label>
+        <select id="productSelect" required>
+          <option value="">-- Choose Product --</option>
+          <option value="🧴 Pesticide A - ₹250/L" data-price="250">🧴 Pesticide A - ₹250/L</option>
+          <option value="🪴 Fertilizer B - ₹500/Bag" data-price="500">🪴 Fertilizer B - ₹500/Bag</option>
+          <option value="🌿 Organic Compost C - ₹300/Bag" data-price="300">🌿 Organic Compost C - ₹300/Bag</option>
+          <option value="🧬 Bio Enzyme D - ₹450/L" data-price="450">🧬 Bio Enzyme D - ₹450/L</option>
+        </select>
+
+        <label>Quantity:</label>
+        <input type="number" id="productQty" min="1" required>
+
+        <label>Delivery Address:</label>
+        <input type="text" id="deliveryAddress" required>
+
+        <button type="submit" style="margin-top: 15px;">Submit Order</button>
+      </form>
+
+      <div id="orderOutput"></div>
+    </div>
+
+    <div class="section" id="guideBox">
+      <h3>📘 Recommended Inputs</h3>
+      <table>
+        <thead>
+          <tr><th>Vegetable</th><th>Suggested Product</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Tomato</td><td>Fertilizer B, Pesticide A</td></tr>
+          <tr><td>Potato</td><td>Organic Compost C</td></tr>
+          <tr><td>Carrot</td><td>Organic Compost C</td></tr>
+          <tr><td>Okra (Bhindi)</td><td>Fertilizer B</td></tr>
+          <tr><td>Brinjal</td><td>Pesticide A</td></tr>
+          <tr><td>Cucumber</td><td>Bio Enzyme D</td></tr>
+          <tr><td>Capsicum</td><td>Fertilizer B</td></tr>
+          <tr><td>Pumpkin</td><td>Organic Compost</td></tr>
+          <tr><td>Chilli</td><td>Bio Enzyme D</td></tr>
+          <tr><td>Radish</td><td>Compost C</td></tr>
+        </tbody>
+        <thead>
+          <tr><th>Green Leafy</th><th>Suggested Product</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Spinach</td><td>Fertilizer B</td></tr>
+          <tr><td>Fenugreek</td><td>Organic Compost</td></tr>
+          <tr><td>Amaranthus</td><td>Bio Enzyme</td></tr>
+          <tr><td>Coriander</td><td>Fertilizer B</td></tr>
+          <tr><td>Mustard Leaves</td><td>Compost C</td></tr>
+          <tr><td>Drumstick Leaves</td><td>Bio Enzyme</td></tr>
+          <tr><td>Mint</td><td>Pesticide A</td></tr>
+          <tr><td>Curry Leaves</td><td>Fertilizer B</td></tr>
+          <tr><td>Celery</td><td>Compost C</td></tr>
+          <tr><td>Parsley</td><td>Organic Compost</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function toggleGuide() {
+      const guide = document.getElementById("guideBox");
+      guide.style.display = guide.style.display === "block" ? "none" : "block";
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const select = document.getElementById("productSelect");
+      const product = select.value;
+      const price = parseInt(select.options[select.selectedIndex].dataset.price);
+      const qty = parseInt(document.getElementById("productQty").value);
+      const address = document.getElementById("deliveryAddress").value;
+
+      const total = qty * price;
+
+      const output = document.getElementById("orderOutput");
+      const div = document.createElement("div");
+      div.className = "order-output";
+      div.innerHTML = `
+        <strong>✅ Order Placed:</strong><br>
+        Product: ${product}<br>
+        Quantity: ${qty}<br>
+        Total Price: ₹${total}<br>
+        Delivery: ${address}
+      `;
+
+      output.prepend(div);
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
